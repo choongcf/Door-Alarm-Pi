@@ -1,8 +1,10 @@
 #!/bin/bash
 
-#update the system
 
+
+# delete all content of folder html
 rm -rf /home/app/doorSensor
 
+#update the system
 sudo apt-get -y update
 sudo apt-get -y upgrade
