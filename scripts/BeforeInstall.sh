@@ -3,7 +3,7 @@
 
 
 # delete all content of folder html
-rm -rf /home/app/doorSensor
+sudo rm -rf /home/app/doorSensor
 
 #update the system
 sudo apt-get -y update
