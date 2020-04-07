@@ -120,17 +120,19 @@ function writeToDynamoDB(status) { // putItem on dynamoDB table
 
 function sendMessage(status) {
   var d = new Date();
-  var textmessage = new AWS.SNS({apiVersion: '2010-03-31'});
-  textmessage.publish({
-    Message: `Device ${globalSerial}: Door is:${status} on ${d}`,  /* required */
-    TopicArn: arn_sns
-  },
-    function(err,data) {
-      if (err) {
-        console.error(err, err.stack);
-        return;
-      }
-      console.log(data);    
+  var params = {
+  Message: `Device ${globalSerial}: Door is:${status} on ${d}`,  /* required */
+  TopicArn: arn_sns
+};
+var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+
+publishTextPromise.then(
+  function(data) {
+    console.log(`Message ${params.Message} sent to the topic ${params.TopicArn}`);
+    console.log("MessageID is " + data.MessageId);
+  }).catch(
+    function(err) {
+      console.error(err, err.stack);    
   });
 }
 
