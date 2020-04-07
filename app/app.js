@@ -109,7 +109,7 @@ function writeToDynamoDB(status) { // putItem on dynamoDB table
      "status": status     
     },     
     ReturnConsumedCapacity: "TOTAL", 
-    TableName: "door_sensor"
+    TableName: "heyhey"
    };
 
    docClient.put(params, function(err, data) {
