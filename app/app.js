@@ -71,7 +71,7 @@ pushButton.watch(async function (err, value) { //Watch for hardware interrupts o
   }
   writeToDynamoDB(status);
   sendMessage(status);
-
+  ReadDynamoDB(status);
 });
 
 async function fnSerial() { // return Pi Serial Number
@@ -144,3 +144,22 @@ function unexportOnClose() { //function to run when exiting program
 
 process.on('SIGINT', unexportOnClose); //run when user closes using ctrl+c
 // app deploy by AWS codepipeline
+
+function ReadDynamoDB(status){
+  var d = new Date();
+  var seconds = Math.round(d.getTime() / 1000);
+  
+  var params = {
+    Item: {
+     "Serial": globalSerial,
+     "date_time": seconds,
+     "status": status     
+    },     
+    TableName: "heyhey"
+   };
+
+   docClient.get(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else     console.log(data);           // successful response  
+ });
+}
